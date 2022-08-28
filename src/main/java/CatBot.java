@@ -28,6 +28,9 @@ public class CatBot {
         System.out.println("Hello human" + System.lineSeparator());
         System.out.println("What can cat do for human?" + System.lineSeparator());
 
+        Request[] requests = new Request[100];
+        int numOfRequest = 0;
+
         while(true){
             String line;
             Scanner in = new Scanner(System.in);
@@ -40,7 +43,16 @@ public class CatBot {
                 return;
             }
 
-            System.out.println(r.getRequestName());
+            if(r.getRequestName().equals("list")){
+                for(int i = 0; i < numOfRequest; i++){
+                    System.out.println(i+1 + ". " + requests[i].getRequestName());
+                }
+                continue;
+            }
+
+            System.out.println("added: " + r.getRequestName());
+            requests[numOfRequest] = r;
+            numOfRequest++;
         }
     }
 }
