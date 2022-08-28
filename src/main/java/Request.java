@@ -5,7 +5,7 @@ public class Request {
         this.name = name;
     }
 
-    public void printRequestName() {
-        System.out.println(name);
+    public String getRequestName() {
+        return name;
     }
 }
