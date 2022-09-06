@@ -28,31 +28,41 @@ public class CatBot {
         System.out.println("Hello human" + System.lineSeparator());
         System.out.println("What can cat do for human?" + System.lineSeparator());
 
-        Request[] requests = new Request[100];
-        int numOfRequest = 0;
+        Task[] tasks = new Task[100];
+        int numOfTasks = 0;
 
         while(true){
             String line;
             Scanner in = new Scanner(System.in);
             System.out.println("Type your message: ");
             line = in.nextLine();
-            Request r = new Request(line);
 
-            if(r.getRequestName().equals("bye")){
+            if(line.equals("bye")){
                 System.out.println("K THX BYE");
                 return;
             }
 
-            if(r.getRequestName().equals("list")){
-                for(int i = 0; i < numOfRequest; i++){
-                    System.out.println(i+1 + ". " + requests[i].getRequestName());
-                }
+            else if(line.equals("list")){
+                Task.printAllTasks();
                 continue;
             }
 
-            System.out.println("added: " + r.getRequestName());
-            requests[numOfRequest] = r;
-            numOfRequest++;
+            else if(line.startsWith("mark")){
+                int selectedTask = Character.getNumericValue(line.charAt(5));
+                Task.markDone(selectedTask);
+                continue;
+            }
+
+            else if(line.startsWith("unmark")){
+                int selectedTask = Character.getNumericValue(line.charAt(7));
+                Task.unmarkDone(selectedTask);
+                continue;
+            }
+
+            Task t = new Task(line);
+            Task.addTask(t);
+
+            System.out.println("added: " + t.getTaskName());
         }
     }
 }
