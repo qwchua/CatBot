@@ -134,6 +134,11 @@ public class CatBot {
                 }
             }
 
+            else if(line.startsWith("delete")){
+                int selectedTask = Character.getNumericValue(line.charAt(7));
+                Task.deleteTask(selectedTask);
+                continue;
+            }
             else {
                 System.out.println("Cat dont understand what human wants");
             }
