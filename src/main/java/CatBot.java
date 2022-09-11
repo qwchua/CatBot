@@ -28,12 +28,10 @@ public class CatBot {
         System.out.println("Hello human" + System.lineSeparator());
         System.out.println("What can cat do for human?" + System.lineSeparator());
 
-        Task[] tasks = new Task[100];
-        int numOfTasks = 0;
+        Scanner in = new Scanner(System.in);
 
         while(true){
             String line;
-            Scanner in = new Scanner(System.in);
             System.out.println("Type your message: ");
             line = in.nextLine();
 
@@ -59,10 +57,33 @@ public class CatBot {
                 continue;
             }
 
-            Task t = new Task(line);
-            Task.addTask(t);
+            else if(line.startsWith("deadline")){
+                //sample deadline string => deadline return book /by Sunday
+                Integer indexOfBy = line.indexOf("/by");
+                String deadlineName = line.substring(9,indexOfBy-1);
+                String byDate = line.substring(indexOfBy+4, line.length());
 
-            System.out.println("added: " + t.getTaskName());
+                Deadline d = new Deadline(deadlineName, byDate);
+                Task.addTask(d);
+            }
+
+            else if(line.startsWith("todo")){
+                //sample todo string ==> todo borrow book
+                String toDoName = line.substring(5,line.length());
+
+                ToDo t = new ToDo(toDoName);
+                Task.addTask(t);
+            }
+
+            else if(line.startsWith("event")){
+                //sample event string => event project meeting /at Mon 2-4pm
+                Integer indexOfAt = line.indexOf("/at");
+                String eventName = line.substring(6,indexOfAt-1);
+                String atDate = line.substring(indexOfAt+4, line.length());
+
+                Event e = new Event(eventName, atDate);
+                Task.addTask(e);
+            }
         }
     }
 }

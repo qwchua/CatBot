@@ -6,20 +6,18 @@ public class Task {
 
     static public void printAllTasks() {
         for(int i = 0; i < numOfTasks; i++){
-            String printXorSpace;
-            if(tasks[i].getIsDone() == true){
-                printXorSpace = "X";
-            }
-            else {
-                printXorSpace = " ";
-            }
-            System.out.println(i+1 + ".[" + printXorSpace + "] " + tasks[i].getTaskName());
+            System.out.println(i+1 + "." + tasks[i]);
         }
     }
 
     static public void addTask(Task t){
         tasks[numOfTasks] = t;
         numOfTasks++;
+        System.out.println("Got it. Cat added this task: \n" + t);
+        System.out.println("Now human have " + Task.numOfTasks + " tasks in the list");
+    }
+
+    public Task() {
     }
 
     public Task(String name) {
@@ -47,5 +45,18 @@ public class Task {
         tasks[taskIndex].isDone = false;
         System.out.println("Lmeow, Cat unmarked your task as done, pls make up your mind human");
         System.out.println("[ ] " + tasks[taskIndex].getTaskName());
+    }
+
+    @Override
+    public String toString() {
+        String isCompleted;
+
+        if(this.getIsDone()){
+            isCompleted = "X";
+        }
+        else {
+            isCompleted = " ";
+        }
+        return ("[" + isCompleted + "] " + this.getTaskName() );
     }
 }
