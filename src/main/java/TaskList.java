@@ -29,18 +29,24 @@ public class TaskList {
         return tasks.size();
     }
 
-    public void printAllTasks() {
-        for(int i = 0; i < tasks.size(); i++){
-            System.out.println(i + "." + tasks.get(i));
-        }
-    }
-
     public void addTask(Task t){
         tasks.add(t);
     }
 
     public void deleteTask(int taskNum){
         tasks.remove(taskNum);
+    }
+
+    public TaskList searchTask(String query){
+        TaskList output = new TaskList();
+
+        for(Task t : tasks){
+            if(t.getTaskName().contains(query)){
+                output.addTask(t);
+            }
+        }
+
+        return output;
     }
 
     public void markDone(Integer taskNum) {

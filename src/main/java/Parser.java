@@ -57,7 +57,7 @@ public class Parser {
                     throw new CatBotException("Human, todo description cannot be empty!");
                 }
 
-                String toDoName = s.substring(5,s.length());
+                String toDoName = s.substring(5);
 
                 return new AddCommand(TaskType.TODO, toDoName);
             }
@@ -96,6 +96,22 @@ public class Parser {
         else if (s.startsWith("delete")){
             Integer selectedTask = Character.getNumericValue(s.charAt(7));
             return new DeleteCommand(selectedTask);
+        }
+
+        else if(s.startsWith("search")){
+            //sample todo string ==> todo borrow book
+            try{
+                if (s.length() < 6) {
+                    throw new CatBotException("Human, search cannot be empty!");
+                }
+
+                String query = s.substring(7);
+
+                return new SearchCommand(query);
+            }
+            catch (CatBotException cbe) {
+                System.out.println(cbe.getMessage());
+            }
         }
 
         return new UnknownCommand();
