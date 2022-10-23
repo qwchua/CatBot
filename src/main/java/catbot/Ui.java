@@ -1,3 +1,5 @@
+package catbot;
+
 import java.util.Scanner;
 
 public class Ui {

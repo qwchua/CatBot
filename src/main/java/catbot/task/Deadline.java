@@ -1,3 +1,7 @@
+package catbot.task;
+
+import catbot.TaskType;
+
 public class Deadline extends Task{
     private String by;
     private TaskType taskType = TaskType.DEADLINE;

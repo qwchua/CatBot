@@ -1,4 +1,11 @@
+package catbot.task;
+
+import catbot.TaskType;
+import catbot.Utils;
+
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<Task>();
 
@@ -31,6 +38,36 @@ public class TaskList {
 
     public void addTask(Task t){
         tasks.add(t);
+    }
+
+    private boolean checkForDuplicateTask(Task t) throws NoSuchAlgorithmException {
+        String hash;
+        if(t.getTaskType().equals(TaskType.DEADLINE)){
+            Deadline d = (Deadline)t;
+
+            TaskType type = d.getTaskType();
+            String name = d.getTaskName();
+            String by = d.getBy();
+
+            hash = Utils.hashString(type+name+by);
+
+        } else if (t.getTaskType().equals(TaskType.EVENT)) {
+            Event e = (Event)t;
+
+            TaskType type = e.getTaskType();
+            String name = e.getTaskName();
+            String at = e.getAt();
+
+            hash = Utils.hashString(type+name+at);
+        } else if (t.getTaskType().equals(TaskType.TODO)) {
+            ToDo td = (ToDo)t;
+
+            TaskType type = td.getTaskType();
+            String name = td.getTaskName();
+
+            hash = Utils.hashString(type+name);
+        }
+        return true;
     }
 
     public void deleteTask(int taskNum){

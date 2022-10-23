@@ -1,3 +1,7 @@
+package catbot.task;
+
+import catbot.TaskType;
+
 public class ToDo extends Task{
     private TaskType taskType = TaskType.TODO;
     public ToDo(String description) throws IllegalArgumentException{

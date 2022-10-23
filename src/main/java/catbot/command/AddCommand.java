@@ -1,13 +1,15 @@
+package catbot.command;
+
+import catbot.*;
+import catbot.task.Deadline;
+import catbot.task.Event;
+import catbot.task.TaskList;
+import catbot.task.ToDo;
+
 import java.io.IOException;
 
-enum TaskType {
-    NONE,
-    EVENT,
-    DEADLINE,
-    TODO;
-}
 
-public class AddCommand extends Command{
+public class AddCommand extends Command {
     private String description;
     private TaskType taskType;
     private String date;

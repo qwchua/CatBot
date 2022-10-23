@@ -1,4 +1,8 @@
-import java.io.FileNotFoundException;
+package catbot;
+
+import catbot.command.Command;
+import catbot.task.TaskList;
+
 import java.io.IOException;
 
 public class CatBot {

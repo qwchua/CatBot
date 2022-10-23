@@ -1,4 +1,10 @@
-public class SearchCommand extends Command{
+package catbot.command;
+
+import catbot.Storage;
+import catbot.task.TaskList;
+import catbot.Ui;
+
+public class SearchCommand extends Command {
     String query;
 
     public SearchCommand(String query){

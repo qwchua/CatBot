@@ -1,3 +1,9 @@
+package catbot.command;
+
+import catbot.*;
+import catbot.task.Task;
+import catbot.task.TaskList;
+
 import java.io.IOException;
 
 public class DeleteCommand extends Command {

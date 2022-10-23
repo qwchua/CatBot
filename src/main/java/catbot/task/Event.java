@@ -1,3 +1,7 @@
+package catbot.task;
+
+import catbot.TaskType;
+
 public class Event extends Task {
     private String at;
     private TaskType taskType = TaskType.EVENT;

@@ -1,4 +1,7 @@
-import java.util.ArrayList;
+package catbot.task;
+
+import catbot.TaskType;
+
 public class Task {
     protected String name;
     protected boolean isDone;

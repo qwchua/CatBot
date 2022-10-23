@@ -1,3 +1,7 @@
+package catbot;
+
+import catbot.command.*;
+
 public class Parser {
     public static Command parse(String s) throws CatBotException{
 
