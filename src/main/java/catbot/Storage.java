@@ -63,8 +63,7 @@ public class Storage {
                 fw.write("D | " + isDone + " | " + d.getTaskName() + " | " + d.getBy());
             } else if (t.getTaskType() == TaskType.EVENT) {
                 Event e = (Event)t;
-                fw.write("E | " + isDone + " | " + e.getTaskName() + " | " + e.getAt());
-                System.out.println("E | " + isDone + " | " + e.getTaskName() + " | " + e.getAt());
+                fw.write("E | " + isDone + " | " + e.getTaskName() + " | " + e.getFromDateTime() + " | " + e.getToDateTime());
             }
             fw.write(System.lineSeparator());
         }

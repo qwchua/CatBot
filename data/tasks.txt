@@ -1,5 +1,2 @@
-T | 0 | whattt
-D | 1 | return book | Sunday
-D | 0 | return book | Sunday
-E | 0 | project meeting | Mon 2-4pm
-T | 0 | borrow book
+D | 0 | return book | 2019-12-02T18:00
+E | 0 | project meeting | 2019-12-02T15:00 | 2019-12-02T19:00

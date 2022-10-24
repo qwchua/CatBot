@@ -1,6 +1,13 @@
 package catbot;
 
 import catbot.command.*;
+import catbot.task.Deadline;
+import catbot.task.Event;
+import catbot.task.ToDo;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Parser {
     public static Command parse(String s) throws CatBotException{
@@ -41,13 +48,44 @@ public class Parser {
                 }
 
                 String deadlineName = s.substring(9,indexOfBy-1);
-                String byDate = s.substring(indexOfBy+4, s.length());
+                String byDateTime = s.substring(indexOfBy+4, s.length());
 
-                if(byDate.length() == 0) {
+                String[] arrOfDateTime = byDateTime.split(" ");
+                String dateString = arrOfDateTime[0];
+                String timeString = arrOfDateTime[1];
+
+                String arrofDate[] = dateString.split("/");
+                String day = arrofDate[0];
+                String month = arrofDate[1];
+                String year = arrofDate[2];
+
+                if(Integer.parseInt(day) < 10){
+                    day = "0" + day;
+                }
+
+                if(Integer.parseInt(month) < 10){
+                    month = "0" + month;
+                }
+                LocalDate ld = LocalDate.parse(year + "-" + month + "-" + day);
+
+                LocalTime lt;
+                if(timeString.length() == 0){
+                    lt = LocalTime.parse("23:59");
+                } else {
+                    String hour = timeString.substring(0,2);
+                    String minute = timeString.substring(2);
+                    lt = LocalTime.parse(hour + ":" + minute);
+                }
+
+                LocalDateTime ldt = LocalDateTime.of(ld,lt);
+
+                if(byDateTime.length() == 0) {
                     throw new CatBotException("Human, deadline must have Date/Time!");
                 }
 
-                return new AddCommand(TaskType.DEADLINE, deadlineName, byDate);
+                Deadline deadline = new Deadline(deadlineName, ldt);
+
+                return new AddCommand(deadline);
             }
             catch (CatBotException cbe) {
                 System.out.println(cbe.getMessage());
@@ -63,7 +101,9 @@ public class Parser {
 
                 String toDoName = s.substring(5);
 
-                return new AddCommand(TaskType.TODO, toDoName);
+                ToDo todo = new ToDo(toDoName);
+
+                return new AddCommand(todo);
             }
             catch (CatBotException cbe) {
                 System.out.println(cbe.getMessage());
@@ -84,13 +124,53 @@ public class Parser {
                 }
 
                 String eventName = s.substring(6,indexOfAt-1);
-                String atDate = s.substring(indexOfAt+4, s.length());
+                String fromToDateString = s.substring(indexOfAt+4);
 
-                if(atDate.length() == 0) {
+                if(fromToDateString.length() == 0) {
                     throw new CatBotException("Human, event must have Date/Time!");
                 }
 
-                return new AddCommand(TaskType.EVENT, eventName, atDate);
+                String[] arrOfDateTime = fromToDateString.split(" ");
+                String dateString = arrOfDateTime[0];
+                String fromToTimeString = arrOfDateTime[1];
+
+                String arrofDate[] = dateString.split("/");
+                String day = arrofDate[0];
+                String month = arrofDate[1];
+                String year = arrofDate[2];
+
+                if(Integer.parseInt(day) < 10){
+                    day = "0" + day;
+                }
+
+                if(Integer.parseInt(month) < 10){
+                    month = "0" + month;
+                }
+                LocalDate ld = LocalDate.parse(year + "-" + month + "-" + day);
+
+                String[] arrOfFromToTime = fromToTimeString.split("-");
+                String fromTimeString = arrOfFromToTime[0];
+                String toTimeString = arrOfFromToTime[1];
+
+                LocalTime fromlt;
+                LocalTime tolt;
+
+                String hour = fromTimeString.substring(0,2);
+                String minute = fromTimeString.substring(2);
+
+                fromlt = LocalTime.parse(hour + ":" + minute);
+
+                hour = toTimeString.substring(0,2);
+                minute = toTimeString.substring(2);
+
+                tolt = LocalTime.parse(hour + ":" + minute);
+
+                LocalDateTime fromldt = LocalDateTime.of(ld,fromlt);
+                LocalDateTime toldt = LocalDateTime.of(ld,tolt);
+
+                Event event = new Event(eventName,fromldt,toldt);
+
+                return new AddCommand(event);
             }
             catch (CatBotException cbe) {
                 System.out.println(cbe.getMessage());

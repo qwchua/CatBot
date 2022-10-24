@@ -2,19 +2,25 @@ package catbot.task;
 
 import catbot.TaskType;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Event extends Task {
-    private String at;
+    private LocalDateTime fromDateTime;
+    private LocalDateTime toDateTime;
     private TaskType taskType = TaskType.EVENT;
 
-    public Event(String description, String at) {
+    public Event(String description, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
         super(description);
-        this.at = at;
+        this.fromDateTime = fromDateTime;
+        this.toDateTime = toDateTime;
     }
 
     public Event(boolean isDone, String description, String at) {
         this.isDone = isDone;
         this.name = description;
-        this.at = at;
+        this.fromDateTime = fromDateTime;
+        this.toDateTime = toDateTime;
     }
 
     @Override
@@ -22,12 +28,16 @@ public class Event extends Task {
         return taskType;
     }
 
-    public String getAt(){
-        return at;
+    public LocalDateTime getFromDateTime(){
+        return fromDateTime;
+    }
+
+    public LocalDateTime getToDateTime(){
+        return toDateTime;
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (at: " + at + ")";
+        return "[E]" + super.toString() + " (at: " + fromDateTime.format(DateTimeFormatter.ofPattern("MMM d yyyy HH:mm")) + "-" + toDateTime.format(DateTimeFormatter.ofPattern("HH:mm")) + ")";
     }
 }

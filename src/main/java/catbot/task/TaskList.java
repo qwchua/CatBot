@@ -4,6 +4,7 @@ import catbot.TaskType;
 import catbot.Utils;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class TaskList {
@@ -23,9 +24,9 @@ public class TaskList {
                 isDone = false;
             }
             if(arr[0].equals("T")){
-                tasks.add(new ToDo(isDone, arr[2]));
+                this.addTask(new ToDo(isDone, arr[2]));
             } else if (arr[0].equals("D")) {
-                tasks.add(new Deadline(isDone, arr[2], arr[3]));
+                this.addTask(new Deadline(isDone, arr[2], LocalDateTime.parse(arr[3])));
             } else if (arr[0].equals("E")) {
                 tasks.add(new Event(isDone, arr[2], arr[3]));
             }
@@ -47,7 +48,7 @@ public class TaskList {
 
             TaskType type = d.getTaskType();
             String name = d.getTaskName();
-            String by = d.getBy();
+            LocalDateTime by = d.getBy();
 
             hash = Utils.hashString(type+name+by);
 
@@ -56,9 +57,10 @@ public class TaskList {
 
             TaskType type = e.getTaskType();
             String name = e.getTaskName();
-            String at = e.getAt();
+            LocalDateTime from = e.getFromDateTime();
+            LocalDateTime to = e.getToDateTime();
 
-            hash = Utils.hashString(type+name+at);
+            hash = Utils.hashString(type+name+from+to);
         } else if (t.getTaskType().equals(TaskType.TODO)) {
             ToDo td = (ToDo)t;
 

@@ -2,23 +2,26 @@ package catbot.task;
 
 import catbot.TaskType;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Deadline extends Task{
-    private String by;
+    private LocalDateTime byDateTime;
     private TaskType taskType = TaskType.DEADLINE;
 
-    public Deadline(String description, String by) {
+    public Deadline(String description, LocalDateTime byDateTime) {
         super(description);
-        this.by = by;
+        this.byDateTime = byDateTime;
     }
 
-    public Deadline(boolean isDone, String description, String by) {
+    public Deadline(boolean isDone, String description, LocalDateTime byDateTime) {
         this.isDone = isDone;
         this.name = description;
-        this.by = by;
+        this.byDateTime = byDateTime;
     }
 
-    public String getBy() {
-        return by;
+    public LocalDateTime getBy() {
+        return byDateTime;
     }
 
     public TaskType getTaskType() {
@@ -27,6 +30,6 @@ public class Deadline extends Task{
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[D]" + super.toString() + " (by: " + byDateTime.format(DateTimeFormatter.ofPattern("MMM d yyyy HH:mm")) + ")";
     }
 }
