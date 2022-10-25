@@ -4,6 +4,7 @@ import catbot.*;
 import catbot.task.*;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 
 
@@ -16,9 +17,13 @@ public class AddCommand extends Command {
 
     @Override
     public void execute(TaskList tl, Ui ui, Storage s) {
-        tl.addTask(task);
-        ui.showMessage("Got it. Cat added this task: \n" + task.getTaskName());
-        ui.showMessage("Now human have " + tl.getSize() + " tasks in the list");
+        try{
+            tl.addTask(task);
+            ui.showMessage("Got it. Cat added this task: \n" + task.getTaskName());
+            ui.showMessage("Now human have " + tl.getSize() + " tasks in the list");
+        } catch (CatBotException cbe) {
+            ui.showMessage(cbe.getMessage());
+        }
 
         try{
             s.save(tl);

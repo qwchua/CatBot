@@ -1,14 +1,18 @@
 package catbot.task;
 
+import catbot.CatBotException;
 import catbot.TaskType;
-import catbot.Utils;
+import catbot.utils.Utils;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<Task>();
+    private Set<String> uniques = new HashSet<>();
 
     public TaskList(){
 
@@ -24,11 +28,11 @@ public class TaskList {
                 isDone = false;
             }
             if(arr[0].equals("T")){
-                this.addTask(new ToDo(isDone, arr[2]));
+                tasks.add(new ToDo(isDone, arr[2]));
             } else if (arr[0].equals("D")) {
-                this.addTask(new Deadline(isDone, arr[2], LocalDateTime.parse(arr[3])));
+                tasks.add(new Deadline(isDone, arr[2], LocalDateTime.parse(arr[3])));
             } else if (arr[0].equals("E")) {
-                tasks.add(new Event(isDone, arr[2], arr[3]));
+                tasks.add(new Event(isDone, arr[2], LocalDateTime.parse(arr[3]), LocalDateTime.parse(arr[4])));
             }
         }
     }
@@ -37,43 +41,27 @@ public class TaskList {
         return tasks.size();
     }
 
-    public void addTask(Task t){
-        tasks.add(t);
-    }
-
-    private boolean checkForDuplicateTask(Task t) throws NoSuchAlgorithmException {
-        String hash;
-        if(t.getTaskType().equals(TaskType.DEADLINE)){
-            Deadline d = (Deadline)t;
-
-            TaskType type = d.getTaskType();
-            String name = d.getTaskName();
-            LocalDateTime by = d.getBy();
-
-            hash = Utils.hashString(type+name+by);
-
-        } else if (t.getTaskType().equals(TaskType.EVENT)) {
-            Event e = (Event)t;
-
-            TaskType type = e.getTaskType();
-            String name = e.getTaskName();
-            LocalDateTime from = e.getFromDateTime();
-            LocalDateTime to = e.getToDateTime();
-
-            hash = Utils.hashString(type+name+from+to);
-        } else if (t.getTaskType().equals(TaskType.TODO)) {
-            ToDo td = (ToDo)t;
-
-            TaskType type = td.getTaskType();
-            String name = td.getTaskName();
-
-            hash = Utils.hashString(type+name);
+    public void addTask(Task t) throws CatBotException {
+        if(checkIfTaskExists(t)){
+            throw new CatBotException("Cat detected a duplicated task and did not add this task" + System.lineSeparator() + "pls try again!");
         }
-        return true;
+        tasks.add(t);
+        uniques.add(getTaskHash(t));
     }
 
-    public void deleteTask(int taskNum){
+    private boolean checkIfTaskExists(Task t) {
+        String hash = getTaskHash(t);
+        if (uniques.contains(hash)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void deleteTask(int taskNum) {
         tasks.remove(taskNum);
+        Task t = getTask(taskNum);
+        String hash = getTaskHash(t);
+        uniques.remove(hash);
     }
 
     public TaskList searchTask(String query){
@@ -81,7 +69,10 @@ public class TaskList {
 
         for(Task t : tasks){
             if(t.getTaskName().contains(query)){
-                output.addTask(t);
+                try{
+                    output.addTask(t);
+                } catch (CatBotException cbe){
+                }
             }
         }
 
@@ -98,6 +89,42 @@ public class TaskList {
 
     public Task getTask(Integer taskNum){
         return tasks.get(taskNum);
+    }
+
+    public String getTaskHash(Task t){
+        String hash;
+
+        try {
+            if(t.getTaskType().equals(TaskType.DEADLINE)){
+                Deadline d = (Deadline)t;
+
+                TaskType type = d.getTaskType();
+                String name = d.getTaskName();
+                LocalDateTime by = d.getBy();
+
+                hash = Utils.hashString(type+name+by);
+
+            } else if (t.getTaskType().equals(TaskType.EVENT)) {
+                Event e = (Event)t;
+
+                TaskType type = e.getTaskType();
+                String name = e.getTaskName();
+                LocalDateTime from = e.getFromDateTime();
+                LocalDateTime to = e.getToDateTime();
+
+                hash = Utils.hashString(type+name+from+to);
+            } else {
+                ToDo td = (ToDo)t;
+
+                TaskType type = td.getTaskType();
+                String name = td.getTaskName();
+
+                hash = Utils.hashString(type+name);
+            }
+            return hash;
+        } catch (NoSuchAlgorithmException nsae) {
+            return null;
+        }
     }
 
     @Override

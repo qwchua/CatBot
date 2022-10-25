@@ -4,13 +4,14 @@ import catbot.command.*;
 import catbot.task.Deadline;
 import catbot.task.Event;
 import catbot.task.ToDo;
+import catbot.utils.Utils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Parser {
-    public static Command parse(String s) throws CatBotException{
+    public Command parse(String s) throws CatBotException{
 
         if(s.equals("bye")){
             return new ExitCommand();
@@ -48,40 +49,26 @@ public class Parser {
                 }
 
                 String deadlineName = s.substring(9,indexOfBy-1);
-                String byDateTime = s.substring(indexOfBy+4, s.length());
+                String byDateTime = s.substring(indexOfBy+4);
+
+                if(byDateTime.length() == 0) {
+                    throw new CatBotException("Human, deadline must have Date/Time!");
+                }
 
                 String[] arrOfDateTime = byDateTime.split(" ");
                 String dateString = arrOfDateTime[0];
                 String timeString = arrOfDateTime[1];
 
-                String arrofDate[] = dateString.split("/");
-                String day = arrofDate[0];
-                String month = arrofDate[1];
-                String year = arrofDate[2];
-
-                if(Integer.parseInt(day) < 10){
-                    day = "0" + day;
-                }
-
-                if(Integer.parseInt(month) < 10){
-                    month = "0" + month;
-                }
-                LocalDate ld = LocalDate.parse(year + "-" + month + "-" + day);
-
+                LocalDate ld = Utils.convertDateStringWithSlashToLocalDate(dateString);
                 LocalTime lt;
+
                 if(timeString.length() == 0){
                     lt = LocalTime.parse("23:59");
                 } else {
-                    String hour = timeString.substring(0,2);
-                    String minute = timeString.substring(2);
-                    lt = LocalTime.parse(hour + ":" + minute);
+                    lt = Utils.convertFourDigitTimeStringToLocalTime(timeString);
                 }
 
                 LocalDateTime ldt = LocalDateTime.of(ld,lt);
-
-                if(byDateTime.length() == 0) {
-                    throw new CatBotException("Human, deadline must have Date/Time!");
-                }
 
                 Deadline deadline = new Deadline(deadlineName, ldt);
 
@@ -134,36 +121,14 @@ public class Parser {
                 String dateString = arrOfDateTime[0];
                 String fromToTimeString = arrOfDateTime[1];
 
-                String arrofDate[] = dateString.split("/");
-                String day = arrofDate[0];
-                String month = arrofDate[1];
-                String year = arrofDate[2];
-
-                if(Integer.parseInt(day) < 10){
-                    day = "0" + day;
-                }
-
-                if(Integer.parseInt(month) < 10){
-                    month = "0" + month;
-                }
-                LocalDate ld = LocalDate.parse(year + "-" + month + "-" + day);
+                LocalDate ld = Utils.convertDateStringWithSlashToLocalDate(dateString);
 
                 String[] arrOfFromToTime = fromToTimeString.split("-");
                 String fromTimeString = arrOfFromToTime[0];
                 String toTimeString = arrOfFromToTime[1];
 
-                LocalTime fromlt;
-                LocalTime tolt;
-
-                String hour = fromTimeString.substring(0,2);
-                String minute = fromTimeString.substring(2);
-
-                fromlt = LocalTime.parse(hour + ":" + minute);
-
-                hour = toTimeString.substring(0,2);
-                minute = toTimeString.substring(2);
-
-                tolt = LocalTime.parse(hour + ":" + minute);
+                LocalTime fromlt = Utils.convertFourDigitTimeStringToLocalTime(fromTimeString);
+                LocalTime tolt = Utils.convertFourDigitTimeStringToLocalTime(toTimeString);
 
                 LocalDateTime fromldt = LocalDateTime.of(ld,fromlt);
                 LocalDateTime toldt = LocalDateTime.of(ld,tolt);

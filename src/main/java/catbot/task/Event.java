@@ -16,7 +16,7 @@ public class Event extends Task {
         this.toDateTime = toDateTime;
     }
 
-    public Event(boolean isDone, String description, String at) {
+    public Event(boolean isDone, String description, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
         this.isDone = isDone;
         this.name = description;
         this.fromDateTime = fromDateTime;
