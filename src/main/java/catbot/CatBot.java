@@ -14,6 +14,8 @@ public class CatBot {
     public CatBot(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
+        parser = new Parser();
+
         try {
             tasks = new TaskList(storage.load());
             System.out.println("File loaded!");
