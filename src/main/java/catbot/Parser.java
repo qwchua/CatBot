@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Parser {
-    public Command parse(String s) throws CatBotException{
+    public Command parse(String s) throws CatBotException, java.time.DateTimeException{
 
         if(s.equals("bye")){
             return new ExitCommand();
@@ -29,6 +29,10 @@ public class Parser {
         else if(s.startsWith("unmark")){
             Integer selectedTask = Character.getNumericValue(s.charAt(7));
             return new UnmarkCommand(selectedTask);
+        }
+
+        else if(s.startsWith("statistics")){
+            return new StatisticsCommand();
         }
 
         else if(s.startsWith("deadline")){
@@ -99,47 +103,42 @@ public class Parser {
 
         else if(s.startsWith("event")){
             //sample event string => event project meeting /at Mon 2-4pm
-            try{
-                if (s.length() < 8) {
-                    throw new CatBotException("Human, event description cannot be empty!");
-                }
-
-                Integer indexOfAt = s.indexOf("/at");
-
-                if(indexOfAt == -1) {
-                    throw new CatBotException("Human, event must have at Date/Time!");
-                }
-
-                String eventName = s.substring(6,indexOfAt-1);
-                String fromToDateString = s.substring(indexOfAt+4);
-
-                if(fromToDateString.length() == 0) {
-                    throw new CatBotException("Human, event must have Date/Time!");
-                }
-
-                String[] arrOfDateTime = fromToDateString.split(" ");
-                String dateString = arrOfDateTime[0];
-                String fromToTimeString = arrOfDateTime[1];
-
-                LocalDate ld = Utils.convertDateStringWithSlashToLocalDate(dateString);
-
-                String[] arrOfFromToTime = fromToTimeString.split("-");
-                String fromTimeString = arrOfFromToTime[0];
-                String toTimeString = arrOfFromToTime[1];
-
-                LocalTime fromlt = Utils.convertFourDigitTimeStringToLocalTime(fromTimeString);
-                LocalTime tolt = Utils.convertFourDigitTimeStringToLocalTime(toTimeString);
-
-                LocalDateTime fromldt = LocalDateTime.of(ld,fromlt);
-                LocalDateTime toldt = LocalDateTime.of(ld,tolt);
-
-                Event event = new Event(eventName,fromldt,toldt);
-
-                return new AddCommand(event);
+            if (s.length() < 8) {
+                throw new CatBotException("Human, event description cannot be empty!");
             }
-            catch (CatBotException cbe) {
-                System.out.println(cbe.getMessage());
+
+            Integer indexOfAt = s.indexOf("/at");
+
+            if(indexOfAt == -1) {
+                throw new CatBotException("Human, event must have at Date/Time!");
             }
+
+            String eventName = s.substring(6,indexOfAt-1);
+            String fromToDateString = s.substring(indexOfAt+4);
+
+            if(fromToDateString.length() == 0) {
+                throw new CatBotException("Human, event must have Date/Time!");
+            }
+
+            String[] arrOfDateTime = fromToDateString.split(" ");
+            String dateString = arrOfDateTime[0];
+            String fromToTimeString = arrOfDateTime[1];
+
+            LocalDate ld = Utils.convertDateStringWithSlashToLocalDate(dateString);
+
+            String[] arrOfFromToTime = fromToTimeString.split("-");
+            String fromTimeString = arrOfFromToTime[0];
+            String toTimeString = arrOfFromToTime[1];
+
+            LocalTime fromlt = Utils.convertFourDigitTimeStringToLocalTime(fromTimeString);
+            LocalTime tolt = Utils.convertFourDigitTimeStringToLocalTime(toTimeString);
+
+            LocalDateTime fromldt = LocalDateTime.of(ld,fromlt);
+            LocalDateTime toldt = LocalDateTime.of(ld,tolt);
+
+            Event event = new Event(eventName,fromldt,toldt);
+
+            return new AddCommand(event);
         }
 
         else if (s.startsWith("delete")){

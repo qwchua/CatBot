@@ -45,6 +45,18 @@ public class Ui {
         System.out.println(s);
     }
 
+    public void showError(String s){
+        System.out.println(s);
+    }
+
+    public void detectedDuplicateTask(){
+        System.out.println("Cat detected a duplicated task and did not add this task" + System.lineSeparator() + "pls try again!");
+    }
+
+    public void showLoadingError(){
+        System.out.println("Cat cannot load from data/tasks.txt, So Cat will make new instance");
+    }
+
     public  void showGoodbye(){
         System.out.println("K THX BYE");
     }

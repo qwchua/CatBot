@@ -21,8 +21,8 @@ public class AddCommand extends Command {
             tl.addTask(task);
             ui.showMessage("Got it. Cat added this task: \n" + task.getTaskName());
             ui.showMessage("Now human have " + tl.getSize() + " tasks in the list");
-        } catch (CatBotException cbe) {
-            ui.showMessage(cbe.getMessage());
+        } catch (DuplicatedTaskException dte) {
+            ui.detectedDuplicateTask();
         }
 
         try{

@@ -18,12 +18,8 @@ public class CatBot {
 
         try {
             tasks = new TaskList(storage.load());
-            System.out.println("File loaded!");
-        } catch (CatBotException c) {
-            //ui.showLoadingError();
-            tasks = new TaskList();
-        } catch (IOException f){
-            System.out.println("Error finding file");
+        } catch (FileCorruptedException | DuplicatedTaskException | IOException e) {
+            ui.showLoadingError();
             tasks = new TaskList();
         }
     }
@@ -40,7 +36,9 @@ public class CatBot {
                 c.execute(tasks, ui, storage);
                 isExit = c.isExit();
             } catch (CatBotException c) {
-                //ui.showError(c.getMessage());
+                ui.showError(c.getMessage());
+            }  catch (Exception e) {
+                ui.showError(e.getMessage());
             } finally {
                 ui.showLine();
             }

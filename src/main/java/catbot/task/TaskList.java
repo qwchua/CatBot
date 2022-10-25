@@ -1,6 +1,7 @@
 package catbot.task;
 
 import catbot.CatBotException;
+import catbot.DuplicatedTaskException;
 import catbot.TaskType;
 import catbot.utils.Utils;
 
@@ -18,22 +19,9 @@ public class TaskList {
 
     }
 
-    public TaskList(ArrayList<String> list) {
-        for(String s : list){
-            String[] arr = s.split(" \\| ");
-            boolean isDone;
-            if(arr[1].equals("1")){
-                isDone = true;
-            } else {
-                isDone = false;
-            }
-            if(arr[0].equals("T")){
-                tasks.add(new ToDo(isDone, arr[2]));
-            } else if (arr[0].equals("D")) {
-                tasks.add(new Deadline(isDone, arr[2], LocalDateTime.parse(arr[3])));
-            } else if (arr[0].equals("E")) {
-                tasks.add(new Event(isDone, arr[2], LocalDateTime.parse(arr[3]), LocalDateTime.parse(arr[4])));
-            }
+    public TaskList(ArrayList<Task> tasks) throws DuplicatedTaskException {
+        for(Task t : tasks){
+            addTask(t);
         }
     }
 
@@ -41,9 +29,9 @@ public class TaskList {
         return tasks.size();
     }
 
-    public void addTask(Task t) throws CatBotException {
+    public void addTask(Task t) throws DuplicatedTaskException {
         if(checkIfTaskExists(t)){
-            throw new CatBotException("Cat detected a duplicated task and did not add this task" + System.lineSeparator() + "pls try again!");
+            throw new DuplicatedTaskException("Cat detected a duplicated task and did not add this task" + System.lineSeparator() + "pls try again!");
         }
         tasks.add(t);
         uniques.add(getTaskHash(t));
@@ -71,7 +59,7 @@ public class TaskList {
             if(t.getTaskName().contains(query)){
                 try{
                     output.addTask(t);
-                } catch (CatBotException cbe){
+                } catch (DuplicatedTaskException dte){
                 }
             }
         }
@@ -90,6 +78,11 @@ public class TaskList {
     public Task getTask(Integer taskNum){
         return tasks.get(taskNum);
     }
+
+    public ArrayList<Task> getTasksList(){
+        return tasks;
+    }
+
 
     public String getTaskHash(Task t){
         String hash;
