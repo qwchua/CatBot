@@ -1,6 +1,9 @@
 package catbot;
 
 import catbot.command.Command;
+import catbot.exceptions.CatBotException;
+import catbot.exceptions.DuplicatedTaskException;
+import catbot.exceptions.FileCorruptedException;
 import catbot.task.TaskList;
 
 import java.io.IOException;

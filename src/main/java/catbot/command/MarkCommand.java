@@ -14,6 +14,10 @@ public class MarkCommand extends Command {
     }
     @Override
     public void execute(TaskList t, Ui ui, Storage s) {
+        if(taskNum < 0 || taskNum > t.getSize()-1 ){
+            ui.showError("Human, Your task number should be not be below 0 or more than " + (t.getSize()-1) );
+            return;
+        }
         t.markDone(taskNum);
         ui.showMessage("Good job human, Cat marked your task as done");
         ui.showMessage("[X] " + t.getTask(taskNum).getTaskName());

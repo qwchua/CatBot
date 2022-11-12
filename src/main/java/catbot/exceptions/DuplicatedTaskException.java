@@ -1,4 +1,4 @@
-package catbot;
+package catbot.exceptions;
 
 public class DuplicatedTaskException extends Exception{
     public DuplicatedTaskException(){}

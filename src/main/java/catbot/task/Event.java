@@ -1,10 +1,12 @@
 package catbot.task;
 
-import catbot.TaskType;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a Task type of Event
+ * Event have a From and To Date
+ */
 public class Event extends Task {
     private LocalDateTime fromDateTime;
     private LocalDateTime toDateTime;
@@ -28,10 +30,20 @@ public class Event extends Task {
         return taskType;
     }
 
+    /**
+     * Returns the specified Event From Date.
+     *
+     * @return Event's From Date
+     */
     public LocalDateTime getFromDateTime(){
         return fromDateTime;
     }
 
+    /**
+     * Returns the specified Event To Date.
+     *
+     * @return Event's To Date
+     */
     public LocalDateTime getToDateTime(){
         return toDateTime;
     }

@@ -1,11 +1,10 @@
 package catbot.command;
 
 import catbot.*;
+import catbot.exceptions.DuplicatedTaskException;
 import catbot.task.*;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
 
 
 public class AddCommand extends Command {

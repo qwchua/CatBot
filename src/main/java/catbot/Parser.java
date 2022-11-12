@@ -1,6 +1,7 @@
 package catbot;
 
 import catbot.command.*;
+import catbot.exceptions.CatBotException;
 import catbot.task.Deadline;
 import catbot.task.Event;
 import catbot.task.ToDo;
@@ -10,7 +11,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Represents a Parser object, main function is to parse a string into a command object
+ */
 public class Parser {
+    /**
+     * Parses a string into a Command object
+     * If string cannot be parsed, UnknownCommand will be returned.
+     *
+     * @param s String to be parse
+     * @return Command Object
+     * @throws CatBotException If any CatBot related errors are found
+     * @throws java.time.DateTimeException If any date/time is not valid
+     */
     public Command parse(String s) throws CatBotException, java.time.DateTimeException{
 
         if(s.equals("bye")){
@@ -22,12 +35,12 @@ public class Parser {
         }
 
         else if(s.startsWith("mark")){
-            Integer selectedTask = Character.getNumericValue(s.charAt(5));
+            Integer selectedTask = Integer.parseInt(s.substring(5));
             return new MarkCommand(selectedTask);
         }
 
         else if(s.startsWith("unmark")){
-            Integer selectedTask = Character.getNumericValue(s.charAt(7));
+            Integer selectedTask = Integer.parseInt(s.substring(7));
             return new UnmarkCommand(selectedTask);
         }
 
@@ -142,7 +155,7 @@ public class Parser {
         }
 
         else if (s.startsWith("delete")){
-            Integer selectedTask = Character.getNumericValue(s.charAt(7));
+            Integer selectedTask = Integer.parseInt(s.substring(7));
             return new DeleteCommand(selectedTask);
         }
 
@@ -156,6 +169,24 @@ public class Parser {
                 String query = s.substring(7);
 
                 return new SearchCommand(query);
+            }
+            catch (CatBotException cbe) {
+                System.out.println(cbe.getMessage());
+            }
+        }
+
+        else if(s.startsWith("view")){
+            //sample todo string ==> todo borrow book
+            try{
+                if (s.length() < 5) {
+                    throw new CatBotException("Human, date cannot be empty!");
+                }
+
+                String dateToSearch = s.substring(5);
+
+                LocalDate ld = Utils.convertDateStringWithSlashToLocalDate(dateToSearch);
+
+                return new ViewCommand(ld);
             }
             catch (CatBotException cbe) {
                 System.out.println(cbe.getMessage());

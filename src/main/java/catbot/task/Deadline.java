@@ -1,10 +1,12 @@
 package catbot.task;
 
-import catbot.TaskType;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a Task type of Deadline
+ * Deadline has a by date
+ */
 public class Deadline extends Task{
     private LocalDateTime byDateTime;
     private TaskType taskType = TaskType.DEADLINE;
@@ -20,10 +22,20 @@ public class Deadline extends Task{
         this.byDateTime = byDateTime;
     }
 
+    /**
+     * Returns the specified Deadline by Date.
+     *
+     * @return Deadline's By Date
+     */
     public LocalDateTime getBy() {
         return byDateTime;
     }
 
+    /**
+     * Returns the specified Deadline Tasktype.
+     *
+     * @return Deadline's Type
+     */
     public TaskType getTaskType() {
         return taskType;
     }

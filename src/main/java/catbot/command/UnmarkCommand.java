@@ -14,6 +14,11 @@ public class UnmarkCommand extends Command {
     }
     @Override
     public void execute(TaskList t, Ui ui, Storage s) {
+        if(taskNum < 0 || taskNum > t.getSize()-1 ){
+            ui.showError("Human, Your task number should be not be below 0 or more than " + (t.getSize()-1) );
+            return;
+        }
+
         t.unmarkDone(taskNum);
         ui.showMessage("Lmeow, Cat unmarked your task as done, pls make up your mind human");
         ui.showMessage("[ ] " + t.getTask(taskNum).getTaskName());

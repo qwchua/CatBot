@@ -1,7 +1,9 @@
 package catbot.task;
 
-import catbot.TaskType;
-
+/**
+ * Represents a Task type of ToDo
+ * Event have a description, done status
+ */
 public class ToDo extends Task{
     private TaskType taskType = TaskType.TODO;
     public ToDo(String description) throws IllegalArgumentException{

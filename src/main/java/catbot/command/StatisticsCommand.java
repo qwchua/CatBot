@@ -1,14 +1,13 @@
 package catbot.command;
 
 import catbot.Storage;
-import catbot.TaskType;
+import catbot.task.TaskType;
 import catbot.task.Deadline;
 import catbot.task.Event;
 import catbot.task.Task;
 import catbot.task.TaskList;
 import catbot.Ui;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;

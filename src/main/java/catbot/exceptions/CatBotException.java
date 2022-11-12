@@ -1,4 +1,4 @@
-package catbot;
+package catbot.exceptions;
 
 public class CatBotException extends Exception{
     public CatBotException(){}
