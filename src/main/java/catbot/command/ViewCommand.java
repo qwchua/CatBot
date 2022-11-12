@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ViewCommand extends Command {
     LocalDate dateToView;
 
-    public ViewCommand(LocalDate dateToView){
+    public ViewCommand(LocalDate dateToView) {
         this.dateToView = dateToView;
     }
 
@@ -25,19 +25,19 @@ public class ViewCommand extends Command {
         TaskList results = new TaskList();
         LocalDate currentTaskLd;
 
-        for(Task task: arrOfTasks){
-            if(task.getTaskType() == TaskType.DEADLINE){
-                Deadline d = (Deadline)task;
+        for (Task task : arrOfTasks) {
+            if (task.getTaskType() == TaskType.DEADLINE) {
+                Deadline d = (Deadline) task;
                 currentTaskLd = d.getBy().toLocalDate();
-            } else if(task.getTaskType() == TaskType.EVENT){
-                Event e = (Event)task;
+            } else if (task.getTaskType() == TaskType.EVENT) {
+                Event e = (Event) task;
                 currentTaskLd = e.getFromDateTime().toLocalDate();
             } else {
                 continue;
             }
 
-            if(currentTaskLd.compareTo(dateToView) == 0){
-                try{
+            if (currentTaskLd.compareTo(dateToView) == 0) {
+                try {
                     results.addTask(task);
                 } catch (DuplicatedTaskException dte) {
                 }
@@ -45,7 +45,7 @@ public class ViewCommand extends Command {
 
         }
 
-        if(results.getSize() == 0) {
+        if (results.getSize() == 0) {
             ui.showMessage("Human have 0 task for " + dateToView);
             return;
         }

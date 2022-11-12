@@ -10,13 +10,13 @@ import java.io.IOException;
 public class AddCommand extends Command {
     private Task task;
 
-    public AddCommand(Task task){
+    public AddCommand(Task task) {
         this.task = task;
     }
 
     @Override
     public void execute(TaskList tl, Ui ui, Storage s) {
-        try{
+        try {
             tl.addTask(task);
             ui.showMessage("Got it. Cat added this task: \n" + task.getTaskName());
             ui.showMessage("Now human have " + tl.getSize() + " tasks in the list");
@@ -24,7 +24,7 @@ public class AddCommand extends Command {
             ui.detectedDuplicateTask();
         }
 
-        try{
+        try {
             s.save(tl);
         } catch (IOException ie) {
             System.out.println("Error saving!!");

@@ -48,6 +48,7 @@ public class Ui {
 
     /**
      * Returns the next line of the command as a String
+     *
      * @return next line
      */
     public String readCommand() {
@@ -56,38 +57,40 @@ public class Ui {
 
     /**
      * show message s in console
+     *
      * @param s String to show on console
      */
-    public void showMessage(String s){
+    public void showMessage(String s) {
         System.out.println(s);
     }
 
     /**
      * show error message s in console
+     *
      * @param s String to show on console
      */
-    public void showError(String s){
+    public void showError(String s) {
         System.out.println(s);
     }
 
     /**
      * show duplicated task detected error message in console
      */
-    public void detectedDuplicateTask(){
+    public void detectedDuplicateTask() {
         System.out.println("Cat detected a duplicated task and did not add this task" + System.lineSeparator() + "pls try again!");
     }
 
     /**
      * show loading tasklist loading error from harddisk
      */
-    public void showLoadingError(){
+    public void showLoadingError() {
         System.out.println("Cat cannot load from data/tasks.txt, So Cat will make new instance");
     }
 
     /**
      * show goodbye message when exiting
      */
-    public  void showGoodbye(){
+    public void showGoodbye() {
         System.out.println("K THX BYE");
     }
 }

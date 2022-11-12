@@ -21,34 +21,34 @@ public class StatisticsCommand extends Command {
 
         ArrayList<Task> arrOfTasks = t.getTasksList();
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime endOfToday = LocalDateTime.of(now.getYear(),now.getMonth(),now.getDayOfMonth(),23,59);
+        LocalDateTime endOfToday = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 23, 59);
         LocalDateTime OneWeekFromNow = now.plus(1, ChronoUnit.WEEKS);
         LocalDateTime currentTaskldt;
 
-        for(Task task: arrOfTasks){
-            if(task.getTaskType() == TaskType.DEADLINE){
-                Deadline d = (Deadline)task;
+        for (Task task : arrOfTasks) {
+            if (task.getTaskType() == TaskType.DEADLINE) {
+                Deadline d = (Deadline) task;
                 currentTaskldt = d.getBy();
-            } else if(task.getTaskType() == TaskType.EVENT){
-                Event e = (Event)task;
+            } else if (task.getTaskType() == TaskType.EVENT) {
+                Event e = (Event) task;
                 currentTaskldt = e.getFromDateTime();
             } else {
                 continue;
             }
 
-            if(task.getIsDone() == true){
+            if (task.getIsDone() == true) {
                 continue;
             }
 
-            if(currentTaskldt.isBefore(now)){
+            if (currentTaskldt.isBefore(now)) {
                 numOfOverdueTasks++;
             }
 
-            if(currentTaskldt.isBefore(endOfToday) && currentTaskldt.isAfter(now)){
+            if (currentTaskldt.isBefore(endOfToday) && currentTaskldt.isAfter(now)) {
                 numOfTasksLeftForToday++;
             }
 
-            if(currentTaskldt.isBefore(OneWeekFromNow) && currentTaskldt.isAfter(now)){
+            if (currentTaskldt.isBefore(OneWeekFromNow) && currentTaskldt.isAfter(now)) {
                 numOfTasksLeftForThisWeek++;
             }
         }

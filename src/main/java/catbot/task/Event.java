@@ -35,7 +35,7 @@ public class Event extends Task {
      *
      * @return Event's From Date
      */
-    public LocalDateTime getFromDateTime(){
+    public LocalDateTime getFromDateTime() {
         return fromDateTime;
     }
 
@@ -44,7 +44,7 @@ public class Event extends Task {
      *
      * @return Event's To Date
      */
-    public LocalDateTime getToDateTime(){
+    public LocalDateTime getToDateTime() {
         return toDateTime;
     }
 

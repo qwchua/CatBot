@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
  * Represents a Task type of Deadline
  * Deadline has a by date
  */
-public class Deadline extends Task{
+public class Deadline extends Task {
     private LocalDateTime byDateTime;
     private TaskType taskType = TaskType.DEADLINE;
 

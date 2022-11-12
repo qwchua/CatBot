@@ -7,7 +7,7 @@ import catbot.Ui;
 public abstract class Command {
     protected boolean exit = false;
 
-    public boolean isExit(){
+    public boolean isExit() {
         return exit;
     }
 

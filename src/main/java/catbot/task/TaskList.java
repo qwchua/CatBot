@@ -17,21 +17,22 @@ public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private Set<String> uniques = new HashSet<>();
 
-    public TaskList(){
+    public TaskList() {
 
     }
 
     public TaskList(ArrayList<Task> tasks) throws DuplicatedTaskException {
-        for(Task t : tasks){
+        for (Task t : tasks) {
             addTask(t);
         }
     }
 
     /**
      * Returns total number of tasks
+     *
      * @return total number of tasks
      */
-    public Integer getSize(){
+    public Integer getSize() {
         return tasks.size();
     }
 
@@ -39,12 +40,13 @@ public class TaskList {
      * Adds a task to Tasklist
      * If the position is unset, NaN is returned.
      * If task already exists, Exception will be thown
+     *
      * @param t Task to be added
      * @throws DuplicatedTaskException If duplicated task.
      */
 
     public void addTask(Task t) throws DuplicatedTaskException {
-        if(checkIfTaskExists(t)){
+        if (checkIfTaskExists(t)) {
             throw new DuplicatedTaskException("Cat detected a duplicated task and did not add this task" + System.lineSeparator() + "pls try again!");
         }
         tasks.add(t);
@@ -68,8 +70,8 @@ public class TaskList {
     /**
      * Deletes task from tasklist
      * Removes task hash from uniques
+     *
      * @param taskNum index of the tasklist to be deleted
-
      */
     public void deleteTask(int taskNum) {
         tasks.remove(taskNum);
@@ -86,14 +88,14 @@ public class TaskList {
      * @param query String to match
      * @return Tasklist
      */
-    public TaskList searchTask(String query){
+    public TaskList searchTask(String query) {
         TaskList output = new TaskList();
 
-        for(Task t : tasks){
-            if(t.getTaskName().contains(query)){
-                try{
+        for (Task t : tasks) {
+            if (t.getTaskName().contains(query)) {
+                try {
                     output.addTask(t);
-                } catch (DuplicatedTaskException dte){
+                } catch (DuplicatedTaskException dte) {
                 }
             }
         }
@@ -126,16 +128,16 @@ public class TaskList {
      * @param taskNum index of the task list
      * @return Task
      */
-    public Task getTask(Integer taskNum){
+    public Task getTask(Integer taskNum) {
         return tasks.get(taskNum);
     }
 
     /**
      * Returns all the task from the tasklist
-
+     *
      * @return ArayList of Tasks
      */
-    public ArrayList<Task> getTasksList(){
+    public ArrayList<Task> getTasksList() {
         return tasks;
     }
 
@@ -149,35 +151,35 @@ public class TaskList {
      * @param t Task to be hashed
      * @return hash String of the task
      */
-    public String getTaskHash(Task t){
+    public String getTaskHash(Task t) {
         String hash;
 
         try {
-            if(t.getTaskType().equals(TaskType.DEADLINE)){
-                Deadline d = (Deadline)t;
+            if (t.getTaskType().equals(TaskType.DEADLINE)) {
+                Deadline d = (Deadline) t;
 
                 TaskType type = d.getTaskType();
                 String name = d.getTaskName();
                 LocalDateTime by = d.getBy();
 
-                hash = Utils.hashString(type+name+by);
+                hash = Utils.hashString(type + name + by);
 
             } else if (t.getTaskType().equals(TaskType.EVENT)) {
-                Event e = (Event)t;
+                Event e = (Event) t;
 
                 TaskType type = e.getTaskType();
                 String name = e.getTaskName();
                 LocalDateTime from = e.getFromDateTime();
                 LocalDateTime to = e.getToDateTime();
 
-                hash = Utils.hashString(type+name+from+to);
+                hash = Utils.hashString(type + name + from + to);
             } else {
-                ToDo td = (ToDo)t;
+                ToDo td = (ToDo) t;
 
                 TaskType type = td.getTaskType();
                 String name = td.getTaskName();
 
-                hash = Utils.hashString(type+name);
+                hash = Utils.hashString(type + name);
             }
             return hash;
         } catch (NoSuchAlgorithmException nsae) {
@@ -187,8 +189,8 @@ public class TaskList {
 
     @Override
     public String toString() {
-        String s ="";
-        for(int i = 0; i < tasks.size(); i++){
+        String s = "";
+        for (int i = 0; i < tasks.size(); i++) {
             s += i + "." + tasks.get(i) + "\n";
         }
         return s;

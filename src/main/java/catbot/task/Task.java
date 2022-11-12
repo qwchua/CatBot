@@ -37,18 +37,18 @@ public class Task {
     /**
      * Set the specified Task to undone
      */
-    public void setToUndone(){
+    public void setToUndone() {
         this.isDone = false;
     }
 
     /**
      * Set the specified Task to done
      */
-    public void setToDone(){
+    public void setToDone() {
         this.isDone = true;
     }
 
-    public TaskType getTaskType(){
+    public TaskType getTaskType() {
         return TaskType.NONE;
     }
 
@@ -56,12 +56,11 @@ public class Task {
     public String toString() {
         String isCompleted;
 
-        if(this.getIsDone()){
+        if (this.getIsDone()) {
             isCompleted = "X";
-        }
-        else {
+        } else {
             isCompleted = " ";
         }
-        return ("[" + isCompleted + "] " + this.getTaskName() );
+        return ("[" + isCompleted + "] " + this.getTaskName());
     }
 }

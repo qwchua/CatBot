@@ -17,13 +17,13 @@ public class TaskListTest {
     public void testAddingDuplicatedTaskToTaskList() {
         TaskList tl = new TaskList();
 
-        Task task1 = new Deadline("Return Book", LocalDateTime.of(2022,11,11,5,30));
-        Task task2 = new Deadline("Return Book", LocalDateTime.of(2022,11,11,5,30));
+        Task task1 = new Deadline("Return Book", LocalDateTime.of(2022, 11, 11, 5, 30));
+        Task task2 = new Deadline("Return Book", LocalDateTime.of(2022, 11, 11, 5, 30));
 
-        try{
+        try {
             tl.addTask(task1);
             tl.addTask(task2);
-        } catch (Exception e){
+        } catch (Exception e) {
             assertEquals("Cat detected a duplicated task and did not add this task" + System.lineSeparator() +
                     "pls try again!", e.getMessage());
         }
@@ -33,7 +33,7 @@ public class TaskListTest {
     public void testTaskHashMatch() {
         TaskList tl = new TaskList();
 
-        Task task1 = new Deadline("Return Book", LocalDateTime.of(2022,11,11,5,30));
+        Task task1 = new Deadline("Return Book", LocalDateTime.of(2022, 11, 11, 5, 30));
 
         String hash = tl.getTaskHash(task1);
 

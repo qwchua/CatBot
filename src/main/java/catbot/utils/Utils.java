@@ -22,18 +22,18 @@ public class Utils {
         return hashtext;
     }
 
-    public static LocalDate convertDateStringWithSlashToLocalDate(String date) throws java.time.DateTimeException{
+    public static LocalDate convertDateStringWithSlashToLocalDate(String date) throws java.time.DateTimeException {
         String arrofDate[] = date.split("/");
         int day = Integer.parseInt(arrofDate[0]);
         int month = Integer.parseInt(arrofDate[1]);
         int year = Integer.parseInt(arrofDate[2]);
 
-        LocalDate ld = LocalDate.of(year,month,day);
+        LocalDate ld = LocalDate.of(year, month, day);
         return ld;
     }
 
-    public static LocalTime convertFourDigitTimeStringToLocalTime(String time) throws java.time.DateTimeException{
-        String hour = time.substring(0,2);
+    public static LocalTime convertFourDigitTimeStringToLocalTime(String time) throws java.time.DateTimeException {
+        String hour = time.substring(0, 2);
         String minute = time.substring(2);
         LocalTime lt = LocalTime.parse(hour + ":" + minute);
         return lt;

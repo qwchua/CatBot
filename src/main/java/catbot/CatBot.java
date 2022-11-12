@@ -40,7 +40,7 @@ public class CatBot {
                 isExit = c.isExit();
             } catch (CatBotException c) {
                 ui.showError(c.getMessage());
-            }  catch (Exception e) {
+            } catch (Exception e) {
                 ui.showError(e.getMessage());
             } finally {
                 ui.showLine();
