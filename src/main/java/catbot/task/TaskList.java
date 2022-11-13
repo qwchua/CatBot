@@ -57,7 +57,7 @@ public class TaskList {
      * Checks if task already exist in the tasklist
      *
      * @param t Task to be checked
-     * @return boolean
+     * @return <code>true</code> if task exist and <code>false</code> if not.
      */
     private boolean checkIfTaskExists(Task t) {
         String hash = getTaskHash(t);
@@ -74,10 +74,10 @@ public class TaskList {
      * @param taskNum index of the tasklist to be deleted
      */
     public void deleteTask(int taskNum) {
-        tasks.remove(taskNum);
         Task t = getTask(taskNum);
         String hash = getTaskHash(t);
         uniques.remove(hash);
+        tasks.remove(taskNum);
     }
 
     /**
@@ -142,7 +142,7 @@ public class TaskList {
     }
 
     /**
-     * Returns a hash of a selected task, hash function is SHA1
+     * Returns a hash of a selected task, hash function used is SHA1
      * Example: if task is a deadline, we will hash tasktype+taskname+byDate
      * Example task: Deadline(Deadline, "Return book", "2019-12-02T19:01")
      * Example hash: hash("DeadlineReturn book2019-12-02T19:01")
